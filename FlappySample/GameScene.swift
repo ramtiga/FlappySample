@@ -12,17 +12,25 @@ struct PhysicsCategory {
   static let Ghost : UInt32 = 0x1 << 1
   static let Wall : UInt32 = 0x1 << 2
   static let Ground : UInt32 = 0x1 << 3
+  static let Score : UInt32 = 0x1 << 4
 }
 
-class GameScene: SKScene {
+class GameScene: SKScene, SKPhysicsContactDelegate {
   
   var Ground = SKSpriteNode()
   var Ghost = SKSpriteNode()
   var wallPair = SKNode()
   var moveAndRemove = SKAction()
   var gameStartFlag = Bool()
+  var score = Int()
+  var scoreLbl = SKLabelNode()
+  var gameoverFlg = Bool()
+  var restartBtn = SKSpriteNode()
+  
+  //シーン作成
+  func createScene() {
+    self.physicsWorld.contactDelegate = self
     
-  override func didMove(to view: SKView) {
     Ground = SKSpriteNode(imageNamed: "ground.png")
     //      Ground.setScale(0.5)
     Ground.position = CGPoint(x: 0, y: -self.frame.height / 2 + Ground.frame.height / 2)
@@ -43,17 +51,50 @@ class GameScene: SKScene {
     Ghost.physicsBody = SKPhysicsBody(circleOfRadius: Ghost.frame.height / 2)
     Ghost.physicsBody?.categoryBitMask = PhysicsCategory.Ghost
     Ghost.physicsBody?.collisionBitMask = PhysicsCategory.Ground | PhysicsCategory.Wall
-    Ghost.physicsBody?.contactTestBitMask = PhysicsCategory.Ground | PhysicsCategory.Wall
+    Ghost.physicsBody?.contactTestBitMask = PhysicsCategory.Ground | PhysicsCategory.Wall | PhysicsCategory.Score
     Ghost.physicsBody?.affectedByGravity = false
     Ghost.physicsBody?.isDynamic = true
     Ghost.zPosition = 2
     self.addChild(Ghost)
+    
+    scoreLbl.position = CGPoint(x: 0, y: self.frame.height / 2.5)
+    scoreLbl.text = "\(score)"
+    scoreLbl.color = UIColor.brown
+    scoreLbl.zPosition = 5
+    self.addChild(scoreLbl)
+  }
+  
+  //リスタートシーン
+  func restartScene() {
+    self.removeAllChildren()
+    self.removeAllActions()
+    gameoverFlg = false
+    gameStartFlag = false
+    Ghost.physicsBody?.affectedByGravity = true
+    score = 0
+    createScene()
+  }
+  
+  override func didMove(to view: SKView) {
+    createScene()
   }
   
   //壁作成
   func createWall() {
     wallPair = SKNode()
+
+    let scoreNode = SKSpriteNode()
+    scoreNode.size = CGSize(width: 1, height: 200)
+    scoreNode.position = CGPoint(x: self.frame.width / 2 - 15, y: 0)
+    scoreNode.physicsBody = SKPhysicsBody(rectangleOf: scoreNode.size)
+    scoreNode.physicsBody?.affectedByGravity = false
+    scoreNode.physicsBody?.isDynamic = false
+    scoreNode.physicsBody?.categoryBitMask = PhysicsCategory.Score
+    scoreNode.physicsBody?.collisionBitMask = 0
+    scoreNode.physicsBody?.contactTestBitMask = PhysicsCategory.Ghost
+    scoreNode.color = UIColor.blue
     
+
     let topWall = SKSpriteNode(imageNamed: "wall.png")
     let btmWall = SKSpriteNode(imageNamed: "wall.png")
     
@@ -82,13 +123,14 @@ class GameScene: SKScene {
 
     wallPair.zPosition = 1
     
-    var randomPosition = CGFloat.random(min: -200, max: 200)
-    print(randomPosition)
+    let randomPosition = CGFloat.random(min: -200, max: 200)
     wallPair.position.y += randomPosition
+    wallPair.addChild(scoreNode)
     wallPair.run(moveAndRemove)
     self.addChild(wallPair)
   }
 
+  //画面タッチ開始処理
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     if gameStartFlag == false {
       gameStartFlag = true
@@ -108,13 +150,51 @@ class GameScene: SKScene {
       moveAndRemove = SKAction.sequence([movePipes, removePipes])
 
       Ghost.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
-      Ghost.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 90))
+      Ghost.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 60))
     }
-    Ghost.physicsBody?.velocity = CGVector.zero
-    Ghost.physicsBody?.applyImpulse(CGVector(dx: 0.0, dy: 60.0))
+    else if gameoverFlg {
+      
+    } else {
+      Ghost.physicsBody?.velocity = CGVector.zero
+      Ghost.physicsBody?.applyImpulse(CGVector(dx: 0.0, dy: 60.0))
+    }
+    
+    for touch in touches {
+      let location = touch.location(in: self)
+      if gameoverFlg {
+        if restartBtn.contains(location) {
+          restartScene()
+        }
+      }
+      
+    }
+    
   }
   
   override func update(_ currentTime: TimeInterval) {
     // Called before each frame is rendered
   }
+  
+  //衝突処理
+  func didBegin(_ contact: SKPhysicsContact) {
+    if contact.bodyA.categoryBitMask == PhysicsCategory.Ghost && contact.bodyB.categoryBitMask == PhysicsCategory.Score ||
+       contact.bodyB.categoryBitMask == PhysicsCategory.Ghost && contact.bodyA.categoryBitMask == PhysicsCategory.Score {
+      score += 1
+      scoreLbl.text = "\(score)"
+    }
+    if contact.bodyA.categoryBitMask == PhysicsCategory.Ghost && contact.bodyB.categoryBitMask == PhysicsCategory.Wall ||
+       contact.bodyB.categoryBitMask == PhysicsCategory.Ghost && contact.bodyA.categoryBitMask == PhysicsCategory.Wall {
+      gameoverFlg = true
+      createBtn()
+    }
+  }
+  
+  //リスタートボタン作成
+  func createBtn() {
+    restartBtn = SKSpriteNode(color: UIColor.blue, size: CGSize(width: 200, height: 100))
+    restartBtn.position = CGPoint(x: 0, y: 0)
+    restartBtn.zPosition = 6
+    self.addChild(restartBtn)
+  }
+  
 }
