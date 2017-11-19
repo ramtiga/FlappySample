@@ -77,14 +77,15 @@ class GameScene: SKScene {
     btmWall.physicsBody?.affectedByGravity = false
     btmWall.physicsBody?.isDynamic = false
 
-    wallPair.zPosition = 1
-    
     wallPair.addChild(topWall)
     wallPair.addChild(btmWall)
 
-    let distance = CGFloat(self.frame.width + wallPair.frame.width)
-    let movePipes = SKAction.moveBy(x: -distance, y: 0, duration: TimeInterval(0.008 * distance))
-    wallPair.run(movePipes)
+    wallPair.zPosition = 1
+    
+    var randomPosition = CGFloat.random(min: -200, max: 200)
+    print(randomPosition)
+    wallPair.position.y += randomPosition
+    wallPair.run(moveAndRemove)
     self.addChild(wallPair)
   }
 
@@ -101,11 +102,10 @@ class GameScene: SKScene {
       let spawnDelayForever = SKAction.repeatForever(spawDelay)
       self.run(spawnDelayForever)
 
-//      let distance = CGFloat(self.frame.width + wallPair.frame.width)
-//      let movePipes = SKAction.moveBy(x: -distance, y: 0, duration: TimeInterval(0.008 * distance))
-//      let movePipes = SKAction.move(to: CGPoint(x: -200, y: 0), duration: TimeInterval(0.008 * distance))
-//      let removePipes = SKAction.removeFromParent()
-//      moveAndRemove = SKAction.sequence([movePipes, removePipes])
+      let distance = CGFloat(self.frame.width + wallPair.frame.width)
+      let movePipes = SKAction.moveBy(x: -distance, y: 0, duration: TimeInterval(0.008 * distance))
+      let removePipes = SKAction.removeFromParent()
+      moveAndRemove = SKAction.sequence([movePipes, removePipes])
 
       Ghost.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
       Ghost.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 90))
