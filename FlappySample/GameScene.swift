@@ -20,7 +20,7 @@ class GameScene: SKScene {
   var Ghost = SKSpriteNode()
   var wallPair = SKNode()
   var moveAndRemove = SKAction()
-  var gameStartFlag : Bool = false
+  var gameStartFlag = Bool()
     
   override func didMove(to view: SKView) {
     Ground = SKSpriteNode(imageNamed: "ground.png")
@@ -44,11 +44,10 @@ class GameScene: SKScene {
     Ghost.physicsBody?.categoryBitMask = PhysicsCategory.Ghost
     Ghost.physicsBody?.collisionBitMask = PhysicsCategory.Ground | PhysicsCategory.Wall
     Ghost.physicsBody?.contactTestBitMask = PhysicsCategory.Ground | PhysicsCategory.Wall
-    Ghost.physicsBody?.affectedByGravity = true
+    Ghost.physicsBody?.affectedByGravity = false
     Ghost.physicsBody?.isDynamic = true
     Ghost.zPosition = 2
     self.addChild(Ghost)
-    
   }
   
   //壁作成
@@ -61,8 +60,8 @@ class GameScene: SKScene {
 //    topWall.setScale(0.5)
 //    btmWall.setScale(0.5)
     
-    topWall.position = CGPoint(x: 0, y: 350)
-    btmWall.position = CGPoint(x: 0, y: -350)
+    topWall.position = CGPoint(x: self.frame.width / 2 - 15, y: 350)
+    btmWall.position = CGPoint(x: self.frame.width / 2 - 15, y: -350)
     
     topWall.physicsBody = SKPhysicsBody(rectangleOf: topWall.size)
     topWall.physicsBody?.categoryBitMask = PhysicsCategory.Wall
@@ -83,12 +82,16 @@ class GameScene: SKScene {
     wallPair.addChild(topWall)
     wallPair.addChild(btmWall)
 
+    let distance = CGFloat(self.frame.width + wallPair.frame.width)
+    let movePipes = SKAction.moveBy(x: -distance, y: 0, duration: TimeInterval(0.008 * distance))
+    wallPair.run(movePipes)
     self.addChild(wallPair)
   }
 
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     if gameStartFlag == false {
       gameStartFlag = true
+      Ghost.physicsBody?.affectedByGravity = true
       
       let spawn = SKAction.run({ () in
         self.createWall()
@@ -97,11 +100,15 @@ class GameScene: SKScene {
       let spawDelay = SKAction.sequence([spawn, delay])
       let spawnDelayForever = SKAction.repeatForever(spawDelay)
       self.run(spawnDelayForever)
-      
-      let distance = CGFloat(self.frame.width + wallPair.frame.width)
-      let movePipes = SKAction.moveBy(x: -distance, y: 0, duration: TimeInterval(0.01 * distance))
-      let removePipes = SKAction.removeFromParent()
 
+//      let distance = CGFloat(self.frame.width + wallPair.frame.width)
+//      let movePipes = SKAction.moveBy(x: -distance, y: 0, duration: TimeInterval(0.008 * distance))
+//      let movePipes = SKAction.move(to: CGPoint(x: -200, y: 0), duration: TimeInterval(0.008 * distance))
+//      let removePipes = SKAction.removeFromParent()
+//      moveAndRemove = SKAction.sequence([movePipes, removePipes])
+
+      Ghost.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
+      Ghost.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 90))
     }
     Ghost.physicsBody?.velocity = CGVector.zero
     Ghost.physicsBody?.applyImpulse(CGVector(dx: 0.0, dy: 60.0))
