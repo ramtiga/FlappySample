@@ -7,8 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D90625E21FC2955200F86C12 /* LLPIXEL3.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D90625E11FC2955100F86C12 /* LLPIXEL3.ttf */; };
 		D92D217C1FC1D627007091F3 /* RandomFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92D217B1FC1D627007091F3 /* RandomFunction.swift */; };
+		D984A1A51FC2A4AA0066B20F /* 04B_19__.TTF in Resources */ = {isa = PBXBuildFile; fileRef = D984A1A41FC2A4A90066B20F /* 04B_19__.TTF */; };
 		D9BC66931FC03A5100A9BB4C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BC66921FC03A5100A9BB4C /* AppDelegate.swift */; };
 		D9BC66951FC03A5100A9BB4C /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D9BC66941FC03A5100A9BB4C /* GameScene.sks */; };
 		D9BC66971FC03A5100A9BB4C /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = D9BC66961FC03A5100A9BB4C /* Actions.sks */; };
@@ -20,8 +20,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		D90625E11FC2955100F86C12 /* LLPIXEL3.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = LLPIXEL3.ttf; sourceTree = "<group>"; };
 		D92D217B1FC1D627007091F3 /* RandomFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomFunction.swift; sourceTree = "<group>"; };
+		D984A1A41FC2A4A90066B20F /* 04B_19__.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = 04B_19__.TTF; sourceTree = "<group>"; };
 		D9BC668F1FC03A5100A9BB4C /* FlappySample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlappySample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9BC66921FC03A5100A9BB4C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D9BC66941FC03A5100A9BB4C /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -64,7 +64,7 @@
 		D9BC66911FC03A5100A9BB4C /* FlappySample */ = {
 			isa = PBXGroup;
 			children = (
-				D90625E11FC2955100F86C12 /* LLPIXEL3.ttf */,
+				D984A1A41FC2A4A90066B20F /* 04B_19__.TTF */,
 				D9BC66921FC03A5100A9BB4C /* AppDelegate.swift */,
 				D9BC66941FC03A5100A9BB4C /* GameScene.sks */,
 				D9BC66961FC03A5100A9BB4C /* Actions.sks */,
@@ -139,8 +139,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D9BC669E1FC03A5100A9BB4C /* Main.storyboard in Resources */,
-				D90625E21FC2955200F86C12 /* LLPIXEL3.ttf in Resources */,
 				D9BC66951FC03A5100A9BB4C /* GameScene.sks in Resources */,
+				D984A1A51FC2A4AA0066B20F /* 04B_19__.TTF in Resources */,
 				D9BC66A01FC03A5100A9BB4C /* Assets.xcassets in Resources */,
 				D9BC66A31FC03A5100A9BB4C /* LaunchScreen.storyboard in Resources */,
 				D9BC66971FC03A5100A9BB4C /* Actions.sks in Resources */,
