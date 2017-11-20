@@ -57,9 +57,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     Ghost.zPosition = 2
     self.addChild(Ghost)
     
+//    scoreLbl = SKLabelNode(fontNamed: "LLPIXEL3")
+    scoreLbl.fontName = "LLPIXEL3"
     scoreLbl.position = CGPoint(x: 0, y: self.frame.height / 2.5)
     scoreLbl.text = "\(score)"
-    scoreLbl.color = UIColor.brown
+    scoreLbl.fontColor = UIColor.black
+    scoreLbl.fontSize = 48
     scoreLbl.zPosition = 5
     self.addChild(scoreLbl)
   }

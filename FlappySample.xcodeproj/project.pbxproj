@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D90625E21FC2955200F86C12 /* LLPIXEL3.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D90625E11FC2955100F86C12 /* LLPIXEL3.ttf */; };
 		D92D217C1FC1D627007091F3 /* RandomFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = D92D217B1FC1D627007091F3 /* RandomFunction.swift */; };
 		D9BC66931FC03A5100A9BB4C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9BC66921FC03A5100A9BB4C /* AppDelegate.swift */; };
 		D9BC66951FC03A5100A9BB4C /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D9BC66941FC03A5100A9BB4C /* GameScene.sks */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D90625E11FC2955100F86C12 /* LLPIXEL3.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = LLPIXEL3.ttf; sourceTree = "<group>"; };
 		D92D217B1FC1D627007091F3 /* RandomFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomFunction.swift; sourceTree = "<group>"; };
 		D9BC668F1FC03A5100A9BB4C /* FlappySample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FlappySample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D9BC66921FC03A5100A9BB4C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -62,6 +64,7 @@
 		D9BC66911FC03A5100A9BB4C /* FlappySample */ = {
 			isa = PBXGroup;
 			children = (
+				D90625E11FC2955100F86C12 /* LLPIXEL3.ttf */,
 				D9BC66921FC03A5100A9BB4C /* AppDelegate.swift */,
 				D9BC66941FC03A5100A9BB4C /* GameScene.sks */,
 				D9BC66961FC03A5100A9BB4C /* Actions.sks */,
@@ -136,6 +139,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D9BC669E1FC03A5100A9BB4C /* Main.storyboard in Resources */,
+				D90625E21FC2955200F86C12 /* LLPIXEL3.ttf in Resources */,
 				D9BC66951FC03A5100A9BB4C /* GameScene.sks in Resources */,
 				D9BC66A01FC03A5100A9BB4C /* Assets.xcassets in Resources */,
 				D9BC66A31FC03A5100A9BB4C /* LaunchScreen.storyboard in Resources */,
