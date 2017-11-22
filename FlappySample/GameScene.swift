@@ -26,11 +26,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   var scoreLbl = SKLabelNode()
   var gameoverFlg = Bool()
   var restartBtn = SKSpriteNode()
+  var highScore = 0
+  var highScoreLbl = SKLabelNode()
   
   //シーン作成
   func createScene() {
     self.physicsWorld.contactDelegate = self
     
+    //ハイスコア読み込み
+    let userDefaults = UserDefaults.standard
+    if userDefaults.object(forKey: "highScore") != nil {
+      highScore = userDefaults.integer(forKey: "highScore")
+    }
+    //ハイスコア表示
+    highScoreLbl.fontName = "04b_19"
+    highScoreLbl.position = CGPoint(x: 0, y: -100)
+    highScoreLbl.text = "High Score: \(highScore)"
+    highScoreLbl.fontColor = UIColor.red
+    highScoreLbl.fontSize = 48
+    highScoreLbl.zPosition = 7
+    highScoreLbl.name = "highScoreLbl"
+    self.addChild(highScoreLbl)
+
     for i in 0..<2 {
       let background = SKSpriteNode(imageNamed: "background.png")
       background.anchorPoint = CGPoint.zero
@@ -142,6 +159,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
   //画面タッチ開始処理
   override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
     if gameStartFlag == false {
+      highScoreLbl.removeFromParent()
       gameStartFlag = true
       Ghost.physicsBody?.affectedByGravity = true
       
@@ -167,7 +185,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
       Ghost.physicsBody?.velocity = CGVector.zero
       Ghost.physicsBody?.applyImpulse(CGVector(dx: 0.0, dy: 50.0))
     }
-    
+
     for touch in touches {
       let location = touch.location(in: self)
       if gameoverFlg {
@@ -220,6 +238,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
       if gameoverFlg == false {
         gameoverFlg = true
         self.createBtn()
+        updateHighScore()
       }
     }
   }
@@ -235,4 +254,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     restartBtn.run(SKAction.scale(to: 1.0, duration: 0.3))
   }
   
+  func updateHighScore() {
+    if score > highScore {
+      let userDefaults = UserDefaults.standard
+      userDefaults.set(score, forKey: "highScore")
+
+      highScoreLbl.position = CGPoint(x: 0, y: -100)
+      highScoreLbl.text = "High Score!"
+      highScoreLbl.fontColor = UIColor.red
+      highScoreLbl.fontSize = 48
+      highScoreLbl.zPosition = 7
+      self.addChild(highScoreLbl)
+    }
+  }
 }
